@@ -26,8 +26,12 @@ namespace Valiants_Tale.Resources.Data
         {
             Values = new Dictionary<Type, float>();
         }
-        //used to add value to a stat or create one if nonexistant
-        public void AddStat(Type type, float val)
+        /// <summary>
+        /// used to modify value of a stat by val or create one if nonexistant
+        /// </summary>
+        /// <param name="type">Type of the stat</param>
+        /// <param name="val">Value of the stat</param>
+        public void ModStat(Type type, float val)
         {
             if (Values.ContainsKey(type))
             {
@@ -45,19 +49,11 @@ namespace Valiants_Tale.Resources.Data
             else
                 return 0f;
         }
-        //used to lower the stat or add if nonexistant
-        public void SubstractStat(Type type, float val)
-        {
-            if (Values.ContainsKey(type))
-            {
-                Values[type] -= val;
-            }
-            else
-            {
-                Values.Add(type, -val);
-            }
-        }
-        //Used to set a stat to a certain value
+        /// <summary>
+        /// Used to set a stat to a certain value
+        /// </summary>
+        /// <param name="type">Type of the stat</param>
+        /// <param name="val">Value to set it to</param>
         public void SetStat(Type type, float val)
         {
             if (Values.ContainsKey(type))
@@ -69,7 +65,11 @@ namespace Valiants_Tale.Resources.Data
                 Values.Add(type, val);
             }
         }
-        //Used to get rid of a stat from the page
+
+        /// <summary>
+        /// Used to get rid of a stat from the page
+        /// </summary>
+        /// <param name="type">Type of a stat to get rid of</param>
         public void RemoveStat(Type type)
         {
             if (Values.ContainsKey(type))
@@ -77,13 +77,16 @@ namespace Valiants_Tale.Resources.Data
                 Values.Remove(type);
             }
         }
-        //Used to clone Statistics page. Usefull when you don't want to modify stats
+        /// <summary>
+        /// Used to clone Statistics page. Usefull when you don't want to modify stats
+        /// </summary>
+        /// <returns>A new object with the same stats as the statistics page it's used on</returns>
         public Statistics Clone()
         {
             Statistics other = new Statistics();
             foreach(KeyValuePair<Type, float> a in Values)
             {
-                other.AddStat(a.Key, a.Value);
+                other.ModStat(a.Key, a.Value);
             }
             return other;
         }

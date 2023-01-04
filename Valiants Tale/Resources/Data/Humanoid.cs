@@ -8,7 +8,9 @@ namespace Valiants_Tale.Resources.Data
 {
     class Humanoid : Creature
     {
-        //The difference between this and creature is that this one can have items equiped
+        /// <summary>
+        /// Extends the functionality of the creature by adding a handler for equipment
+        /// </summary>
         public Dictionary<Item.EquipType, Item> Equipment;
 
         public Humanoid(int BaseHP) : base(BaseHP)
@@ -16,19 +18,26 @@ namespace Valiants_Tale.Resources.Data
             Equipment = new Dictionary<Item.EquipType, Item>();
         }
 
-        //Equips the item and unequips the previous one
+        /// <summary>
+        /// Equips the item and unequips the previous one in the same type, if one was equiped
+        /// </summary>
+        /// <param name="item">Item to be equiped</param>
         public void Equip(Item item)
         {
-            Unequip(item);
+            Unequip(item.equipType);
             Equipment.Add(item.equipType, item);
             Buff(item.ID, item.StatPage);
         }
-        public void Unequip(Item item)
+        /// <summary>
+        /// Unequips an item from the provided slot
+        /// </summary>
+        /// <param name="slot">Equipment type slot to remove an item from</param>
+        public void Unequip(Item.EquipType slot)
         {
-            if (Equipment.ContainsKey(item.equipType))
+            if (Equipment.ContainsKey(slot))
             {
-                Equipment.Remove(item.equipType);
-                Cleanse(item.ID);
+                Cleanse(Equipment[slot].ID);
+                Equipment.Remove(slot);
             }    
         }
     }

@@ -27,15 +27,19 @@ namespace Valiants_Tale.Resources.Data
         {
             ID = Guid.NewGuid();
             StatPage = new Statistics();
-            StatPage.AddStat(Statistics.Type.Health, BaseHP);
+            StatPage.ModStat(Statistics.Type.Health, BaseHP);
             CurrentHP = BaseHP;
 
             
         }
 
-        //First thing that fires when the target is damaged
-        //Damage is checked and the value is substracted based on the types and defences that player has in PreHit
-        //Healing is done via sub-0 amounts in the damagevent
+        /// <summary>
+        /// First thing that fires when the target is damaged
+        /// THIS METHOD CALCUALTED ALL THE IMMUNITIES AND SHOULD BE THE PRIMARY WAY TO MODIFY ANY UNITS HEALTH
+        /// Damage is checked and the value is substracted based on the types and defences that player has in PreHit
+        /// Healing is done via sub-0 amounts in the damagevent TEMP
+        /// </summary>
+        /// <param name="e">Damage to apply to the unit</param>
         public void ChangeHealthStatus(DamageEventArgs e)
         {
             e.setDefendant(this);
@@ -43,15 +47,12 @@ namespace Valiants_Tale.Resources.Data
 
             //ADD PARRY AND BLOCK
             //calcualte armor
+            //Move parry & block
+            
+            //to a spell effect
             if (e.damageType != DamageEventArgs.DamageType.True)
             {
                 if (e.isParryable)
-                {
-                    //TODO: Add parry
-                    //if true set hasbeenparried to true;
-                    //set damage to 0
-                }
-                else if (e.isDodgeable)
                 {
                     //TODO: Add parry
                     //if true set hasbeenparried to true;

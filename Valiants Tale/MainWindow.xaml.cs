@@ -71,7 +71,7 @@ namespace Valiants_Tale
             d.Equip(i);
             VocalChat.AddMemory(d.CurrentHP.ToString() + "/" + d.StatPage.GetStat(Statistics.Type.Health).ToString());
 
-            d.Unequip(i);
+            d.Unequip(i.equipType);
             i.StatPage = new Statistics(300, 10, 5, 5, 5, 5, 5, 5);
             d.Equip(i);
             VocalChat.AddMemory(d.CurrentHP.ToString() + "/" + d.StatPage.GetStat(Statistics.Type.Health).ToString());

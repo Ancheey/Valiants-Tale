@@ -21,15 +21,26 @@ namespace Valiants_Tale.Resources.Access
             }
             private set { }
         }
-
+        /// <summary>
+        /// Writes a message in the Vocal chat channel
+        /// </summary>
+        /// <param name="text">Message to write out</param>
         public void WriteVocal(string text)
         {
             MainWindow.ui.VocalChat.AddMemory(text);
         }
+        /// <summary>
+        /// Writes a message in the Action chat channel
+        /// </summary>
+        /// <param name="text">Message to write out</param>
         public void WriteAction(string text)
         {
             MainWindow.ui.ActionChat.AddMemory(text);
         }
+        /// <summary>
+        /// Writes a message in the Mind chat channel
+        /// </summary>
+        /// <param name="text">Message to write out</param>
         public void WriteMind(string text)
         {
             MainWindow.ui.MindChat.AddMemory(text);

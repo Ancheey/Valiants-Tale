@@ -8,26 +8,37 @@ namespace Valiants_Tale.Resources.Data
 {
     class Creature : Unit
     {
-        //Describes the guid that contains the base character stats. Those are used to calculate the StatPage
+        /// <summary>
+        /// Describes the guid that contains the base character stats. Those are used to calculate the StatPage
+        /// </summary>
         Guid BaseStatPageBuffID;
 
-        //Guid either describes the item guid or spell guid. Item will know its guid when it needs to manage this memory
+        /// <summary>
+        /// Guid either describes the item guid or spell guid. Item will know its guid when it needs to manage this memory
+        /// </summary>
         Dictionary<Guid, Statistics> StatBuffs;
 
 
-        //Creates a new creature and its base stat page that can be accesed with StatBuffs[BaseStatPageBuffID]
+        /// <summary>
+        /// Creates a new creature and its base stat page that can be accesed with StatBuffs[BaseStatPageBuffID]
+        /// </summary>
+        /// <param name="BaseHP">Base amount of health that will be given to the unit as a starter stat page</param>
         public Creature(int BaseHP) : base(BaseHP)
         {
             BaseStatPageBuffID = Guid.NewGuid();
             StatBuffs = new Dictionary<Guid, Statistics>();
 
             Statistics stats = new Statistics();
-            stats.AddStat(Statistics.Type.Health, BaseHP);
+            stats.ModStat(Statistics.Type.Health, BaseHP);
             StatBuffs.Add(BaseStatPageBuffID, stats);
             CalculateStats();
         }
 
-        //Adds a new buff or overwrites an existing one with the same GUID
+        /// <summary>
+        /// Adds a new buff or overwrites an existing one with the same GUID
+        /// </summary>
+        /// <param name="source">GUID of the source of the buff. Used to recognise if the buff belongs to a spell or an item</param>
+        /// <param name="stats">Statistics page that will be attributed to the provided guid</param>
         public void Buff(Guid source, Statistics stats)
         {
             if (StatBuffs.ContainsKey(source))
@@ -40,7 +51,10 @@ namespace Valiants_Tale.Resources.Data
             }
             CalculateStats();
         }
-        //Removes a buff if one with supplied guid exists in the buff page
+        /// <summary>
+        /// Removes a buff if one with supplied guid exists in the buff page
+        /// </summary>
+        /// <param name="target">Guid of the source of the buff</param>
         public void Cleanse(Guid target)
         {
             if (StatBuffs.ContainsKey(target))
@@ -49,7 +63,9 @@ namespace Valiants_Tale.Resources.Data
                 CalculateStats();
             }
         }
-        //calcualtes stats from the base and 
+        /// <summary>
+        /// Recalcualtes stats from all the stat pages in the buffs and the base stat page guid
+        /// </summary>
         public void CalculateStats()
         {
             StatPage = new Statistics();
@@ -57,7 +73,7 @@ namespace Valiants_Tale.Resources.Data
             {
                 foreach(Statistics.Type t in Enum.GetValues(typeof(Statistics.Type)))
                 {
-                    StatPage.AddStat(t, a.Value.GetStat(t));
+                    StatPage.ModStat(t, a.Value.GetStat(t));
                 }
             }
         }

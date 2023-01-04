@@ -8,6 +8,12 @@ using Valiants_Tale.Resources.Access;
 
 namespace Valiants_Tale.Resources.Data
 {
+    /// <summary>
+    /// Usage:
+    /// Pick a method and add it into an event
+    /// These are used to modify the damage
+    /// Immunities/dodges/parries/bonus to X all go here
+    /// </summary>
     class SpellEffect
     {
         List<float> values;
@@ -99,6 +105,19 @@ namespace Valiants_Tale.Resources.Data
         {
             e.amount = 0;
             ChatManager.Instance.WriteMind(e.attacked.Name + " is immune to damage.");
+        }
+        /// <summary>
+        /// This method calculates the dodge chance and applies it
+        /// </summary>
+        /// <param name="e"></param>
+        public static void Dodge(DamageEventArgs e)
+        {
+            float ac = e.attacked.StatPage.GetStat(Statistics.Type.Agility);
+            if (e.isDodgeable & ac/5 + new Random().Next(0,20) > 10)
+            {
+                e.amount = 0;
+                e.hasBeenDodged = true;
+            }
         }
     }
 }
